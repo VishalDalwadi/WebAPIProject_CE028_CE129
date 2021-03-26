@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="01500ad6-7c63-4ad8-b279-fb5797ad7b51" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/EmailService/EmailService/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="cad73ad2-d78c-4ce0-9beb-4cdf03185cdc" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/EmailService/EmailService/?disco" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="d38dbe73-b3a8-439a-bc79-83e247e49089" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/EmailService/EmailService/?xsd=xsd1" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="9be10a0d-4a47-4ce3-a7dc-56283b0e3cf5" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/EmailService/EmailService/?xsd=xsd0" />
+    <MetadataFile FileName="EmailService.wsdl" MetadataType="Wsdl" ID="25ab5179-db88-41a0-857d-2801ad7cee0f" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/EmailService/EmailService/?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

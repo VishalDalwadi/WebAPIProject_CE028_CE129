@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="35279ad8-e6d6-44d4-9526-c11b77230e5e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/Design_Time_Addresses/AuthorizationService/AuthorizationService/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="AuthorizationService.wsdl" MetadataType="Wsdl" ID="312d7599-a9e5-4bf8-b0f0-a8912011164d" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AuthorizationService/AuthorizationService/?wsdl" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="480246a1-8962-4fcc-af7c-773b27ce67d0" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AuthorizationService/AuthorizationService/?disco" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="9441a726-6c14-4d62-b868-ef224c12a05e" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AuthorizationService/AuthorizationService/?xsd=xsd0" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="2951f2e6-66a2-4a33-8ca1-30f968bc818f" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AuthorizationService/AuthorizationService/?xsd=xsd2" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="91b220bf-63c7-48fd-8c93-009e7b061d11" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/AuthorizationService/AuthorizationService/?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
