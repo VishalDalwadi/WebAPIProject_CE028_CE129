@@ -17,14 +17,8 @@ namespace ChessOnlineWebAPI.Controllers
             error_resp.Content = new StringContent(error);
             return error_resp;
         }
-        // GET api/values
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
+        
+        // POST /login
         [HttpPost]
         [Route("login")]
         public string Post([FromBody] LoginParams login)
@@ -62,14 +56,112 @@ namespace ChessOnlineWebAPI.Controllers
             }
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
+        // POST /register
+        [HttpPost]
+		[Route("register")]
+        public string Post([FromBody] RegisterParams register)
         {
+			string username = register.Username;
+            string password = register.Password;
+            string email = register.Email;
+			using (UserProfileServiceReference.UserProfileManagementServiceClient client = new UserProfileServiceReference.UserProfileManagementServiceClient())
+            {
+                string status_msg = null;
+                bool username_taken = client.IsUsernameTaken(username);
+                bool email_exists = client.UserWithEmailIdExists(email);
+                if (username_taken)
+                {
+                    status_msg = "This username is unavailable :/. ";
+					throw new HttpResponseException(SetHttpErrorMsg(status_msg, HttpStatusCode.BadRequest));
+                }
+                if (email_exists)
+                {
+                    status_msg = "An account with this email already exists -.- ";
+					throw new HttpResponseException(SetHttpErrorMsg(status_msg, HttpStatusCode.BadRequest));
+                }
+				UserProfileServiceReference.User user = new UserProfileServiceReference.User();
+				user.Username = username;
+				user.Password = password;
+				user.EmailID = email;
+				client.RegisterUser(user);
+				status_msg = "Registration Successful!";
+                return status_msg;
+            }
         }
 
-        // DELETE api/values/5
-        public void Delete(int id)
+        //POST /forgot
+        [Route("forgotpassword")]
+        [HttpPost]
+        public string Post([FromBody] ForgotParams forgot)
         {
+            string emailID = forgot.Email;
+            try
+            {
+                using (UserProfileServiceReference.UserProfileManagementServiceClient client = new UserProfileServiceReference.UserProfileManagementServiceClient())
+                {
+                    client.SendPasswordResetToken(emailID);
+                }
+            }
+            catch (FaultException ex)
+            {
+                throw new HttpResponseException(SetHttpErrorMsg(ex.Reason.ToString(), HttpStatusCode.BadRequest));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(SetHttpErrorMsg("Some unexpected error occurred :/", HttpStatusCode.InternalServerError));
+                //throw new HttpResponseException(SetHttpErrorMsg(ex.Message, HttpStatusCode.InternalServerError));
+            }
+            return "Token sent on email";
         }
+
+        //POST /forgot
+        [Route("resetpassword")]
+        [HttpPost]
+        public string Post([FromBody] ResetParams reset)
+        {
+            string npwd = reset.NewPassword;
+            string token = reset.Token;
+            string email_id = reset.Email;
+            try
+            {
+                using (UserProfileServiceReference.UserProfileManagementServiceClient client = new UserProfileServiceReference.UserProfileManagementServiceClient())
+                {
+                    client.ResetPassword(token, email_id, npwd);
+                    return "Password Reset Successfully!";                  
+                }
+            }
+            catch (FaultException ex)
+            {
+                throw new HttpResponseException(SetHttpErrorMsg(ex.Reason.ToString(), HttpStatusCode.BadRequest));
+            }
+            catch (Exception ex)
+            {
+                throw new HttpResponseException(SetHttpErrorMsg("Some unexpected error occurred :/" + ex.Message, HttpStatusCode.InternalServerError));
+            }
+        }
+
+        [HttpPost]
+        [Route("authorize")]
+        public bool Post([FromBody]TokenParams token)
+        {
+            try
+            {
+                using (AuthorizationServiceReference.AuthorizationServiceClient authZClient =
+                    new AuthorizationServiceReference.AuthorizationServiceClient())
+                {
+                    AuthorizationServiceReference.User user = authZClient.AuthorizeUser(token.Token);
+                    return true;
+                }
+            }
+            catch (FaultException<AuthorizationServiceReference.AuthorizationFault> ex)
+            {
+                throw new HttpResponseException(SetHttpErrorMsg(ex.Reason.ToString(), HttpStatusCode.BadRequest));
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(SetHttpErrorMsg("Some unexpected error occured, check that you're logged in and try again.", HttpStatusCode.BadRequest));
+            }
+        }
+
     }
 }
