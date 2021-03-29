@@ -19,24 +19,23 @@ namespace AuthenticationService
 	[DataContract]
     public class AuthenticationFault 
     {
+        [Flags]
         public enum AuthenticationFaultType
 		{
-			NoSuchUser,
-			InvalidPassword,
-			ServerFault
+            [EnumMember]
+            NoSuchUser,
+            [EnumMember]
+            InvalidPassword,
+            [EnumMember]
+            ServerFault
 		}
 
-        private AuthenticationFaultType _faultType;
-
-        [DataMember]
-        public AuthenticationFaultType FaultType
-        {
-            get { return _faultType; }
-        }
+		[DataMember]
+        public AuthenticationFaultType FaultType { get; protected set; }
 
         public AuthenticationFault(AuthenticationFaultType type)
         {
-            _faultType = type;
+            FaultType = type;
         }
     }
 }
