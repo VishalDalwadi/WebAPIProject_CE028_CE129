@@ -9,6 +9,7 @@ using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using ChessOnlineWebAPI.AuthorizationServiceReference;
 
 namespace ChessOnlineWebApp
 {
@@ -24,15 +25,15 @@ namespace ChessOnlineWebApp
             {
                 try
                 {
-                    using (AuthorizationServiceReference.AuthorizationServiceClient authZClient =
-                        new AuthorizationServiceReference.AuthorizationServiceClient())
+                    using (AuthorizationServiceClient authZClient =
+                        new AuthorizationServiceClient())
                     {
-                        AuthorizationServiceReference.User user = authZClient.AuthorizeUser(token_cookie.Value);
+                        User user = authZClient.AuthorizeUser(token_cookie.Value);
                         IsLoggedIn = true;
                         Session["username"] = user.Username;
                     }
                 }
-                catch (FaultException<AuthorizationServiceReference.AuthorizationFault>)
+                catch (FaultException<AuthorizationFault>)
                 {
                     Response.Cookies["token_cookie"].Expires = DateTime.Now.AddDays(-1);
                 }
