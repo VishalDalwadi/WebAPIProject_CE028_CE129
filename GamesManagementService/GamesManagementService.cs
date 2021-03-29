@@ -3,10 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
 
 namespace GamesManagementService
@@ -24,7 +21,6 @@ namespace GamesManagementService
                 {
                     user = client.AuthorizeUser(token);
                 }
-
                 string connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {

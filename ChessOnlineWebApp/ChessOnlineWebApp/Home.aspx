@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="ChessOnlineWebApp.Home" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Async="true" CodeBehind="Home.aspx.cs" Inherits="ChessOnlineWebApp.Home" %>
 
 <!DOCTYPE html>
 
@@ -38,10 +38,10 @@
             </div>
             <div id="controls_and_data" style="width: 45%; display: table-cell; padding: 2%; border: 2px solid black; border-left: 1px solid black; vertical-align: top;">
                 <div id="controls" style="border: 2px solid black; padding: 1%;">
-                    <asp:Button ID="find_player_button" Text="Find Player" runat="server" OnClick="find_player_button_Click" />
+                    <asp:Button ID="find_player_button" Text="Find Player" runat="server" OnClick="find_player_button_ClickAsync" />
                     <asp:Button ID="start_game_button" Text="Start Game" runat="server" OnClientClick="return false;" Enabled="false" />
                     <asp:Button ID="resign_game_button" Text="Resign Game" runat="server" OnClientClick="return false;" Enabled="false" />
-                    <asp:Button ID="show_saved_games_button" Text="Saved Games" runat="server" OnClick="show_saved_games_button_Click" />
+                    <asp:Button ID="show_saved_games_button" Text="Saved Games" runat="server" OnClick="show_saved_games_button_ClickAsync" />
                     <input id="next_move_button" type="button" value="Next Move" disabled="disabled" />
                     <input id="previous_move_button" type="button" value="Previous Move" disabled="disabled" />
                     <asp:HiddenField ID="game_topic" runat="server" />
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+        <asp:HiddenField ID="token" runat="server" />
     </form>
 
     <script type="text/javascript">
@@ -83,7 +83,7 @@
             $.connection.gameHub.client.playerResigned = function () {
                 let retval = confirm('Player Resigned! Would you like to save the game?');
                 if (retval) {
-                    PageMethods.SaveGame(game.chess.pgn(), game.playing_as);
+                    save_game(game.chess.pgn(), game.playing_as);
                 }
                 $.connection.gameHub.server.endGame(game_topic);
                 chessboard.clear();
@@ -99,14 +99,14 @@
                 if (game.chess.in_checkmate()) {
                     let retval = confirm('You lost! Would you like to save the game?');
                     if (retval) {
-                        PageMethods.SaveGame(game.chess.pgn(), game.playing_as);
+                        save_game(game.chess.pgn(), game.playing_as);
                     }
                     $.connection.gameHub.server.endGame(game.game_topic);
                     $('#data').html('<h3>You lost!</h3>');
                 } else if (game.chess.in_stalemate() || game.chess.in_threefold_repetition() || game.chess.insufficient_material()) {
                     let retval = confirm('Game ended in draw! Would you like to save the game?');
                     if (retval) {
-                        PageMethods.SaveGame(game.chess.pgn(), game.playing_as);
+                        save_game(game.chess.pgn(), game.playing_as);
                     }
                     $.connection.gameHub.server.endGame(game.game_topic);
                     $('#data').html('Game Draw!');
@@ -129,7 +129,7 @@
                     $.connection.gameHub.server.resignGame(game.game_topic);
                     let retval = confirm('Would you like to save the game?');
                     if (retval) {
-                        PageMethods.SaveGame(game.chess.pgn(), game.playing_as);
+                        save_game(game.chess.pgn(), game.playing_as);
                     }
                     $.connection.gameHub.server.endGame(game.game_topic);
                     chessboard.clear();
@@ -174,14 +174,14 @@
                 $('#data').html('<h3 style="padding-left: 2%;">You Win!</h3>');
                 let retval = confirm('You won! Would you like to save the game?');
                 if (retval) {
-                    PageMethods.SaveGame(game.chess.pgn(), game.playing_as);
+                    save_game(game.chess.pgn(), game.playing_as);
                 }
                 $.connection.gameHub.server.endGame(game.game_topic);
                 $('#data').html('You won!');
             } else if (game.chess.in_stalemate() || game.chess.in_threefold_repetition() || game.chess.insufficient_material()) {
                 let retval = confirm('Game ended in Draw! Would you like to save the game?');
                 if (retval) {
-                    PageMethods.SaveGame(game.chess.pgn(), game.playing_as);
+                    save_game(game.chess.pgn(), game.playing_as);
                 }
                 $.connection.gameHub.server.endGame(game.game_topic);
                 $('#data').html('Game Draw!');
@@ -224,8 +224,41 @@
             next_move();
         }
 
+        function save_game(gameString, playingAs) {
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44392/games/save",
+                data: "{\"Token\":\"" + $('#token').val() + "\", \"GameString\":\"" + gameString + "\", \"PlayingAs\":\"" + playingAs + "\"}",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (data) {
+                    console.log("success");
+                },
+                error: function (data) {
+                    console.log("error");
+                }
+            });
+        }
+
         function delete_game(gameId) {
-            PageMethods.DeleteGame(gameId);
+            $.ajax({
+                type: "DELETE",
+                url: "https://localhost:44392/games/" + parseInt(gameId),
+                data: "{\"Token\":\"" + $('#token').val() + "\"}",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (data) {
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                        //__doPostBack('<%= show_saved_games_button.ClientID  %>', 'rldsavedgames');
+                    }, 500);
+                },
+                error: function (data) {
+                    console.log("error");
+                }
+            });
         }
 
         function next_move() {
