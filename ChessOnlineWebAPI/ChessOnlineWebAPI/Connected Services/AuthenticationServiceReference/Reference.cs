@@ -58,7 +58,6 @@ namespace ChessOnlineWebAPI.AuthenticationServiceReference {
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-        [System.FlagsAttribute()]
         [System.Runtime.Serialization.DataContractAttribute(Name="AuthenticationFault.AuthenticationFaultType", Namespace="http://schemas.datacontract.org/2004/07/AuthenticationService")]
         public enum AuthenticationFaultType : int {
             
