@@ -110,6 +110,9 @@ namespace ChessOnlineWebAPI.GamesManagementServiceReference {
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private ChessOnlineWebAPI.GamesManagementServiceReference.GamesManagementFault.GamesManagementFaultType FaultTypeField;
+        
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
             get {
@@ -117,6 +120,19 @@ namespace ChessOnlineWebAPI.GamesManagementServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ChessOnlineWebAPI.GamesManagementServiceReference.GamesManagementFault.GamesManagementFaultType FaultType {
+            get {
+                return this.FaultTypeField;
+            }
+            set {
+                if ((this.FaultTypeField.Equals(value) != true)) {
+                    this.FaultTypeField = value;
+                    this.RaisePropertyChanged("FaultType");
+                }
             }
         }
         
@@ -128,10 +144,24 @@ namespace ChessOnlineWebAPI.GamesManagementServiceReference {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+        [System.Runtime.Serialization.DataContractAttribute(Name="GamesManagementFault.GamesManagementFaultType", Namespace="http://schemas.datacontract.org/2004/07/GamesManagementService")]
+        public enum GamesManagementFaultType : int {
+            
+            [System.Runtime.Serialization.EnumMemberAttribute()]
+            TokenExpired = 0,
+            
+            [System.Runtime.Serialization.EnumMemberAttribute()]
+            InvalidSignature = 1,
+            
+            [System.Runtime.Serialization.EnumMemberAttribute()]
+            ServerFault = 2,
+        }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="GamesManagementServiceReference.IGamesManagementService", CallbackContract=typeof(ChessOnlineWebAPI.GamesManagementServiceReference.IGamesManagementServiceCallback))]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="GamesManagementServiceReference.IGamesManagementService")]
     public interface IGamesManagementService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/SaveGame", ReplyAction="http://tempuri.org/IGamesManagementService/SaveGameResponse")]
@@ -161,27 +191,6 @@ namespace ChessOnlineWebAPI.GamesManagementServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/FindMatch", ReplyAction="http://tempuri.org/IGamesManagementService/FindMatchResponse")]
         System.Threading.Tasks.Task<string> FindMatchAsync(string token);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/ManageActiveGame", ReplyAction="http://tempuri.org/IGamesManagementService/ManageActiveGameResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ChessOnlineWebAPI.GamesManagementServiceReference.GamesManagementFault), Action="http://tempuri.org/IGamesManagementService/ManageActiveGameGamesManagementFaultFa" +
-            "ult", Name="GamesManagementFault", Namespace="http://schemas.datacontract.org/2004/07/GamesManagementService")]
-        void ManageActiveGame(string game_topic, string token);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/ManageActiveGame", ReplyAction="http://tempuri.org/IGamesManagementService/ManageActiveGameResponse")]
-        System.Threading.Tasks.Task ManageActiveGameAsync(string game_topic, string token);
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IGamesManagementServiceCallback {
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/StartingGame", ReplyAction="http://tempuri.org/IGamesManagementService/StartingGameResponse")]
-        string StartingGame(ChessOnlineWebAPI.GamesManagementServiceReference.Game.Player playing_as);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/ReceivedMessage", ReplyAction="http://tempuri.org/IGamesManagementService/ReceivedMessageResponse")]
-        bool ReceivedMessage(string message);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGamesManagementService/SendingMessage", ReplyAction="http://tempuri.org/IGamesManagementService/SendingMessageResponse")]
-        System.ValueTuple<bool, string> SendingMessage();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -190,26 +199,25 @@ namespace ChessOnlineWebAPI.GamesManagementServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class GamesManagementServiceClient : System.ServiceModel.DuplexClientBase<ChessOnlineWebAPI.GamesManagementServiceReference.IGamesManagementService>, ChessOnlineWebAPI.GamesManagementServiceReference.IGamesManagementService {
+    public partial class GamesManagementServiceClient : System.ServiceModel.ClientBase<ChessOnlineWebAPI.GamesManagementServiceReference.IGamesManagementService>, ChessOnlineWebAPI.GamesManagementServiceReference.IGamesManagementService {
         
-        public GamesManagementServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
-                base(callbackInstance) {
+        public GamesManagementServiceClient() {
         }
         
-        public GamesManagementServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
-                base(callbackInstance, endpointConfigurationName) {
+        public GamesManagementServiceClient(string endpointConfigurationName) : 
+                base(endpointConfigurationName) {
         }
         
-        public GamesManagementServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
-                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        public GamesManagementServiceClient(string endpointConfigurationName, string remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
         }
         
-        public GamesManagementServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        public GamesManagementServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(endpointConfigurationName, remoteAddress) {
         }
         
-        public GamesManagementServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(callbackInstance, binding, remoteAddress) {
+        public GamesManagementServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(binding, remoteAddress) {
         }
         
         public void SaveGame(ChessOnlineWebAPI.GamesManagementServiceReference.Game game, string token) {
@@ -242,14 +250,6 @@ namespace ChessOnlineWebAPI.GamesManagementServiceReference {
         
         public System.Threading.Tasks.Task<string> FindMatchAsync(string token) {
             return base.Channel.FindMatchAsync(token);
-        }
-        
-        public void ManageActiveGame(string game_topic, string token) {
-            base.Channel.ManageActiveGame(game_topic, token);
-        }
-        
-        public System.Threading.Tasks.Task ManageActiveGameAsync(string game_topic, string token) {
-            return base.Channel.ManageActiveGameAsync(game_topic, token);
         }
     }
 }
