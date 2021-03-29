@@ -309,10 +309,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\GameParams.cs" />
     <Compile Include="Models\LoginParams.cs" />
     <Compile Include="Models\RegisterParams.cs" />
     <Compile Include="Models\ForgotParams.cs" />
@@ -365,9 +367,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\GamesManagementServiceReference\item1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\GamesManagementServiceReference\item2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\GamesManagementServiceReference\item3.xsd">
