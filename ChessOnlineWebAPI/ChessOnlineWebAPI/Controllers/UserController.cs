@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.ServiceModel;
 using ChessOnlineWebAPI.Models;
+using System.Text;
 namespace ChessOnlineWebAPI.Controllers
 {
     public class UserController : ApiController

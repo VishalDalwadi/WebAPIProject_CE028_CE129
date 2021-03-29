@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using ChessOnlineWebAPI.Models;
+using System.Web.Configuration;
 namespace ChessOnlineWebApp
 {
     public partial class Login : System.Web.UI.Page
@@ -27,12 +28,16 @@ namespace ChessOnlineWebApp
             try
             {
                 HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(WebConfigurationManager.AppSettings.Get("api-base-url"));
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
                 Task<HttpResponseMessage> task = client.PostAsJsonAsync("login", login);
                 HttpResponseMessage response = task.Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    Task<string> token_task = response.Content.ReadAsStringAsync(); ;
+                    Task<string> token_task = response.Content.ReadAsStringAsync();
                     string token = token_task.Result;
+                    token = token.Substring(1, token.Length - 2);
                     Session["username"] = login.Username;
                     HttpCookie token_cookie = new HttpCookie("token_cookie");
                     token_cookie.HttpOnly = true;
@@ -48,9 +53,10 @@ namespace ChessOnlineWebApp
                     ErrorLabel.Text = error;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ErrorLabel.Text = "Username or Password is incorrect :/\n";
+                ErrorLabel.Text = ex.ToString(); 
+                ////ErrorLabel.Text = "Username or Password is incorrect :/\n";
             }
         }
     }
