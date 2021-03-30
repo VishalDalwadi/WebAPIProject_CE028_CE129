@@ -1,10 +1,10 @@
 ﻿using ChessOnlineWebApp.GamesManagementServiceReference;
-using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.ServiceModel;
 using System.Web;
-using System.Web.UI;
+using ChessOnlineWebAPI.AuthorizationServiceReference;
+using Newtonsoft.Json;
 
 namespace ChessOnlineWebApp
 {
@@ -21,15 +21,15 @@ namespace ChessOnlineWebApp
                 token.Value = token_cookie.Value;
                 try
                 {
-                    using (AuthorizationServiceReference.AuthorizationServiceClient authZClient =
-                        new AuthorizationServiceReference.AuthorizationServiceClient())
+                    using (AuthorizationServiceClient authZClient =
+                        new AuthorizationServiceClient())
                     {
-                        AuthorizationServiceReference.User user = authZClient.AuthorizeUser(token_cookie.Value);
+                        User user = authZClient.AuthorizeUser(token_cookie.Value);
                         IsLoggedIn = true;
                         Session["username"] = user.Username;
                     }
                 }
-                catch (FaultException<AuthorizationServiceReference.AuthorizationFault>)
+                catch (FaultException<AuthorizationFault>)
                 {
                     Response.Cookies["token_cookie"].Expires = DateTime.Now.AddDays(-1);
                 }

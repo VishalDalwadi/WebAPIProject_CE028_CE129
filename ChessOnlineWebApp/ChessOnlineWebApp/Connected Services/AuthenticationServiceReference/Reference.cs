@@ -9,75 +9,14 @@
 //------------------------------------------------------------------------------
 
 namespace ChessOnlineWebApp.AuthenticationServiceReference {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="AuthenticationFault", Namespace="http://schemas.datacontract.org/2004/07/AuthenticationService")]
-    [System.SerializableAttribute()]
-    public partial class AuthenticationFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private ChessOnlineWebApp.AuthenticationServiceReference.AuthenticationFault.AuthenticationFaultType FaultTypeField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public ChessOnlineWebApp.AuthenticationServiceReference.AuthenticationFault.AuthenticationFaultType FaultType {
-            get {
-                return this.FaultTypeField;
-            }
-            set {
-                if ((this.FaultTypeField.Equals(value) != true)) {
-                    this.FaultTypeField = value;
-                    this.RaisePropertyChanged("FaultType");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-        [System.Runtime.Serialization.DataContractAttribute(Name="AuthenticationFault.AuthenticationFaultType", Namespace="http://schemas.datacontract.org/2004/07/AuthenticationService")]
-        public enum AuthenticationFaultType : int {
-            
-            [System.Runtime.Serialization.EnumMemberAttribute()]
-            NoSuchUser = 0,
-            
-            [System.Runtime.Serialization.EnumMemberAttribute()]
-            InvalidPassword = 1,
-            
-            [System.Runtime.Serialization.EnumMemberAttribute()]
-            ServerFault = 2,
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="AuthenticationServiceReference.IAuthenticationService")]
     public interface IAuthenticationService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAuthenticationService/AreCorrectCredentials", ReplyAction="http://tempuri.org/IAuthenticationService/AreCorrectCredentialsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(ChessOnlineWebApp.AuthenticationServiceReference.AuthenticationFault), Action="http://tempuri.org/IAuthenticationService/AreCorrectCredentialsAuthenticationFaul" +
+        [System.ServiceModel.FaultContractAttribute(typeof(ChessOnlineWebAPI.AuthenticationServiceReference.AuthenticationFault), Action="http://tempuri.org/IAuthenticationService/AreCorrectCredentialsAuthenticationFaul" +
             "tFault", Name="AuthenticationFault", Namespace="http://schemas.datacontract.org/2004/07/AuthenticationService")]
         string AreCorrectCredentials(string username, string password);
         

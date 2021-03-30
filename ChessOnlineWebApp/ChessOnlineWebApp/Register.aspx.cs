@@ -4,7 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using ChessOnlineWebAPI.Models;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Configuration;
 namespace ChessOnlineWebApp
 {
     public partial class Register : System.Web.UI.Page
@@ -15,38 +20,38 @@ namespace ChessOnlineWebApp
         }
         protected void Register_Click(object sender, EventArgs e)
         {
-            string username = Username.Text;
-            string email = EmailID.Text;
-            string pwd = Password.Text;
-            using (UserProfileServiceReference.UserProfileManagementServiceClient client = new UserProfileServiceReference.UserProfileManagementServiceClient())
+            RegisterParams register = new RegisterParams();
+            register.Username = Username.Text;
+            register.Email = EmailID.Text;
+            register.Password = Password.Text;
+            try
             {
-                string status_msg = null;
-                bool username_taken = client.IsUsernameTaken(username);
-                bool email_exists = client.UserWithEmailIdExists(email);
-                if (username_taken)
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(WebConfigurationManager.AppSettings.Get("api-base-url"));
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                Task<HttpResponseMessage> task = client.PostAsJsonAsync("register", register);
+                HttpResponseMessage response = task.Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    status_msg = "This username is unavailable :/ \n";
-                }
-                if (email_exists)
-                {
-                    status_msg += "An account with this email already exists -.- \n";
-                }
-                if (status_msg == null)
-                {
-                    UserProfileServiceReference.User user = new UserProfileServiceReference.User();
-                    user.Username = username;
-                    user.Password = pwd;
-                    user.EmailID = email;
-                    client.RegisterUser(user);
+                    Task<string> token_task = response.Content.ReadAsStringAsync(); ;
+                    string token = token_task.Result;
                     StatusMsg.ForeColor = System.Drawing.Color.Green;
                     StatusMsg.Text = "Registration Successful! Redirecting you to Login page ...";
                     Response.AddHeader("REFRESH", "3;URL=Login.aspx");
                 }
                 else
                 {
+                    Task<string> error_task = response.Content.ReadAsStringAsync(); ;
+                    string error = error_task.Result;
                     StatusMsg.ForeColor = System.Drawing.Color.Red;
-                    StatusMsg.Text = status_msg;
+                    StatusMsg.Text = error;
                 }
+            }
+            catch (Exception ex)
+            {
+                StatusMsg.ForeColor = System.Drawing.Color.Red;
+                StatusMsg.Text = ex.Message + " " + ex.GetBaseException() + " " + ex.ToString();
             }
         }
     }

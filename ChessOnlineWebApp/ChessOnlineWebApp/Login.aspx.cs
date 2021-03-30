@@ -5,6 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.ServiceModel;
+using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using ChessOnlineWebAPI.Models;
+using System.Web.Configuration;
 namespace ChessOnlineWebApp
 {
     public partial class Login : System.Web.UI.Page
@@ -16,14 +22,23 @@ namespace ChessOnlineWebApp
 
         protected void LoginButton_Click(object sender, EventArgs e)
         {
-            string username = Username.Text;
-            string password = Password.Text;
-            using (AuthenticationServiceReference.AuthenticationServiceClient client = new AuthenticationServiceReference.AuthenticationServiceClient())
+            LoginParams login = new LoginParams();
+            login.Username = Username.Text;
+            login.Password = Password.Text;
+            try
             {
-                try
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(WebConfigurationManager.AppSettings.Get("api-base-url"));
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
+                Task<HttpResponseMessage> task = client.PostAsJsonAsync("login", login);
+                HttpResponseMessage response = task.Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    string token = client.AreCorrectCredentials(username, password);
-                    Session["username"] = username;
+                    Task<string> token_task = response.Content.ReadAsStringAsync();
+                    string token = token_task.Result;
+                    token = token.Substring(1, token.Length - 2);
+                    Session["username"] = login.Username;
                     HttpCookie token_cookie = new HttpCookie("token_cookie");
                     token_cookie.HttpOnly = true;
                     token_cookie.Value = token;
@@ -31,20 +46,17 @@ namespace ChessOnlineWebApp
                     Response.Cookies.Add(token_cookie);
                     Response.Redirect("~/Home.aspx");
                 }
-                catch (FaultException<AuthenticationServiceReference.AuthenticationFault> ex)
+                else
                 {
-                    if (ex.Detail.FaultType == AuthenticationServiceReference.AuthenticationFault.AuthenticationFaultType.NoSuchUser)
-                        ErrorLabel.Text = "User with the name " + username + " does not exist :/\n Check that you've entered the name correctly.\n";
-                    if (ex.Detail.FaultType == AuthenticationServiceReference.AuthenticationFault.AuthenticationFaultType.InvalidPassword)
-                        ErrorLabel.Text = "The password entered incorrect :/\n";
-                    if (ex.Detail.FaultType == AuthenticationServiceReference.AuthenticationFault.AuthenticationFaultType.ServerFault)
-                        ErrorLabel.Text = "The server encountered an error while processing your request. Please try again.\n";
+                    Task<string> error_task = response.Content.ReadAsStringAsync(); ;
+                    string error = error_task.Result;
+                    ErrorLabel.Text = error;
                 }
-                catch (Exception)
-                {
-                    ErrorLabel.Text = "Username or Password is incorrect :/\n";
-                }
-
+            }
+            catch (Exception ex)
+            {
+                ErrorLabel.Text = ex.ToString(); 
+                ////ErrorLabel.Text = "Username or Password is incorrect :/\n";
             }
         }
     }
