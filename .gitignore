@@ -13,6 +13,12 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+<<<<<<< HEAD
+=======
+# Mono auto generated files
+mono_crash.*
+
+>>>>>>> f76605365db18582f413933944384c3e65ea359a
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -39,9 +45,16 @@ Generated\ Files/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+<<<<<<< HEAD
 # NUNIT
 *.VisualState.xml
 TestResult.xml
+=======
+# NUnit
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+>>>>>>> f76605365db18582f413933944384c3e65ea359a
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
@@ -182,6 +195,11 @@ PublishScripts/
 
 # NuGet Packages
 *.nupkg
+<<<<<<< HEAD
+=======
+# NuGet Symbol Packages
+*.snupkg
+>>>>>>> f76605365db18582f413933944384c3e65ea359a
 # The packages folder can be ignored because of Package Restore
 **/[Pp]ackages/*
 # except build/, which is used as an MSBuild target.
@@ -206,6 +224,11 @@ BundleArtifacts/
 Package.StoreAssociation.xml
 _pkginfo.txt
 *.appx
+<<<<<<< HEAD
+=======
+*.appxbundle
+*.appxupload
+>>>>>>> f76605365db18582f413933944384c3e65ea359a
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
@@ -256,6 +279,12 @@ ServiceFabricBackup/
 *.bim_*.settings
 *.rptproj.rsuser
 *- Backup*.rdl
+<<<<<<< HEAD
+=======
+*- [Bb]ackup.rdl
+*- [Bb]ackup ([0-9]).rdl
+*- [Bb]ackup ([0-9][0-9]).rdl
+>>>>>>> f76605365db18582f413933944384c3e65ea359a
 
 # Microsoft Fakes
 FakesAssemblies/
@@ -338,3 +367,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Backup folder for Package Reference Convert tool in Visual Studio 2017
+MigrationBackup/
+
+# Ionide (cross platform F# VS Code tools) working folder
+.ionide/
