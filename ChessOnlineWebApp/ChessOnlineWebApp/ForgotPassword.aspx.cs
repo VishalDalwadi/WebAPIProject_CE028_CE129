@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using ChessOnlineWebAPI.Models;
 namespace ChessOnlineWebApp
 {
-    public partial class ForgotPassword : System.Web.UI.Page
+    public partial class ForgotPassword : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

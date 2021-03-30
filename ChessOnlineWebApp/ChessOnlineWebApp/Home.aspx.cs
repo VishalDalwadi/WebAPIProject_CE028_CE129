@@ -1,13 +1,10 @@
 ﻿using ChessOnlineWebApp.GamesManagementServiceReference;
-using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.ServiceModel;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
 using ChessOnlineWebAPI.AuthorizationServiceReference;
+using Newtonsoft.Json;
 
 namespace ChessOnlineWebApp
 {

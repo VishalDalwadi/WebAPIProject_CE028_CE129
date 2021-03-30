@@ -10,7 +10,7 @@
     <script type="text/javascript" src="static/js/chess.js"></script>
     <script type="text/javascript" src="static/js/chessboard-1.0.0.min.js"></script>
     <script type="text/javascript" src="Scripts/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.signalR.min.js"></script>
     <script src="signalr/hubs"></script>
 
 </head>
